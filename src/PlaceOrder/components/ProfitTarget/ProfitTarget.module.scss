@@ -1,0 +1,24 @@
+
+
+.addProfitBtn {
+    color: #0078ff;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    margin-top: 8px;
+    padding: 11.5px 0 ;
+    margin-bottom: 8px;
+
+    .addIcon {
+       margin-right: 6.3px;
+       width: 14px;
+       height: 14px;
+    }
+
+}
+
+.addProfitBtn:hover{
+    cursor: pointer;
+    color: #0102ff;
+    background-color:rgba(255, 255, 255, 0.03);
+}
