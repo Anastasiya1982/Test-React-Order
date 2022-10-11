@@ -30,6 +30,7 @@ type Props = Omit<
   >;
   errorPlacement?: TooltipProps["placement"];
   onChange?(value: string): void;
+  className?:string
 };
 
 const TextInput = ({
@@ -41,10 +42,11 @@ const TextInput = ({
   InputLabelProps,
   InputProps,
   errorPlacement = "top",
+  className,
   ...rest
 }: Props) => {
   const styles =
-    variant === "filled" ? filledInputStyles : underlinedInputStyles;
+    variant === "filled" ? filledInputStyles : underlinedInputStyles 
   const inputClasses: MUIInputProps["classes"] = {
     root: cn(styles.inputWrapper, { [styles.error]: Boolean(error) }),
     focused: cn(styles.inputWrapper, styles.focused),

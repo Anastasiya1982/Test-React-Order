@@ -21,9 +21,10 @@ export const PlaceOrderForm = observer(() => {
     setPrice,
     setAmount,
     setTotal,
-    setOrderSide
+    setOrderSide,
+    profits
   } = useStore();
-
+console.log("profits from store", profits);
   return (
     <form className={styles.root}>
       <div className={styles.header}>

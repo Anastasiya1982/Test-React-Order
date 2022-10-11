@@ -10,6 +10,7 @@ type Props = Omit<TextInputProps, "onChange" | "onBlur" | "value"> & {
   decimalScale?: number;
   onChange?(value: number | null): void;
   onBlur?(value: number | null): void;
+  
 };
 
 function NumberInput({

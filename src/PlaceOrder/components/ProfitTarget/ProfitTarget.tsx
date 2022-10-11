@@ -1,60 +1,62 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
+import { observer } from "mobx-react";
 import { TakeProfitItem } from "../TakeProfitItem/TakeProfitItem";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import styles from "./ProfitTarget.module.scss";
+import { useStore } from "PlaceOrder/context";
+import { ProfitType } from "../../store/Profit";
+
+type Props = {
+	isOpen: boolean;
+	setIsOpen: Function;
+};
+
+const ProfitTarget: React.FC<Props> = observer(({ isOpen, setIsOpen }) => {
+	const { profits, setProfits, deleteProfitItem } = useStore();
+	const [isBtnVisible, setIsBtnVisible] = useState(true);
+
+	useEffect(() => {
+		if (!profits.length) {
+			setIsOpen(!isOpen);
+			setIsBtnVisible(false);
+		}
+	}, [profits, isOpen, setIsOpen]);
 
 
-const ProfitTarget= () => {  
 
-    const [profitsAmount, setProfitsAmount]=useState([{
-        id:1,
-        profitNumber:2,
-        targetPrice:0,
-        amountToBuy:0
-    }])
+	const addTargetProfit = () => {
+		setProfits();
+	};
 
-
-    const addTargetProfit=()=>{
-        let newTarget = {
-			id: Math.floor(Math.random() * 20),
-			profitNumber: 4,
-			targetPrice: 0,
-			amountToBuy: 0,
-		};
-       if (profitsAmount.length<5){      
-        
-         setProfitsAmount([...profitsAmount, newTarget]);
-       } 
-		
-    }
-    const deleteProfileItem=(id:number)=>{
-        const newProfitsAmount = [...profitsAmount].filter(p=>p.id !==id);
-        setProfitsAmount([...newProfitsAmount]);
-    }
-    
+	const deleteProfitItemById = (item: ProfitType): void => {
+		deleteProfitItem(item);
+	};
 	return (
 		<div className={styles.profitTarget}>
-			{profitsAmount.map((profit) => {
+			{profits.map((profitItem: any) => {
 				return (
 					<TakeProfitItem
-						key={profit.id}
-						{...profit}
-						deleteProfileItem={deleteProfileItem}
+						key={profitItem.id}
+						{...profitItem}
+						deleteProfileItem={() =>
+							deleteProfitItemById(profitItem)
+						}
 					/>
 				);
 			})}
-			{profitsAmount.length < 5 && (
+
+			{isBtnVisible &&  isOpen && (
 				<div className={styles.addProfitBtn}>
 					<AddCircleIcon className={styles.addIcon} />
 					<div onClick={addTargetProfit}>
-						Add profit target {profitsAmount.length} / 5
+						Add profit target {profits.length} / 5
 					</div>
 				</div>
 			)}
 		</div>
 	);
-};
+});
 
 export { ProfitTarget };
