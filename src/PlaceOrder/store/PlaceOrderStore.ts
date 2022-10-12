@@ -83,11 +83,9 @@ export class PlaceOrderStore {
 	@computed get lastProfitNumber() {
         if(this.profits.length){
            return this.profits[this.profits.length - 1].profit;
-        }
-		
+        }	
 	}
 
-	// projected profit по одному target'у = side === 'buy' ? target amount * (target price - formPrice) : amount * (formPrice - target price),
 
 	@computed get progectedProfit() {
 		if (this.profits.length) {

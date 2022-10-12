@@ -1,5 +1,15 @@
 .root {
+  font-size: 15px;
   width: 100%;
+  
+  .inputLabel {
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-size: 15px;
+    top: -15px;
+    left: -13px;
+    white-space: nowrap;
+  }
+
 
   .input {
     color: #fff;
@@ -15,7 +25,7 @@
     color: rgba(255,255,255,.5);
     padding: 6px 0 7px;
   
-    &:hover {
+    &:hover {     
       border-color: #0078ff;
       background-color: transparent;
     }
@@ -26,6 +36,7 @@
 
     &.adornedEnd {
       padding-right: 9px;
+      padding-top: 15px;
     }
 
     &.adornedStart {

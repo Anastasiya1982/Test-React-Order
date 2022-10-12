@@ -29,8 +29,7 @@ type Props = Omit<
     "disableUnderline" | "classes" | "className"
   >;
   errorPlacement?: TooltipProps["placement"];
-  onChange?(value: string): void;
-  className?:string
+  onChange?(value: string): void; 
 };
 
 const TextInput = ({
@@ -41,12 +40,12 @@ const TextInput = ({
   onBlur,
   InputLabelProps,
   InputProps,
-  errorPlacement = "top",
-  className,
+  errorPlacement = "top", 
   ...rest
 }: Props) => {
   const styles =
-    variant === "filled" ? filledInputStyles : underlinedInputStyles 
+    variant === "filled" ? filledInputStyles : underlinedInputStyles;
+    
   const inputClasses: MUIInputProps["classes"] = {
     root: cn(styles.inputWrapper, { [styles.error]: Boolean(error) }),
     focused: cn(styles.inputWrapper, styles.focused),

@@ -4,6 +4,20 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #393644;
+    margin-bottom: 5px;
+    padding-top: 5px;
+
+    & .profitInputContainer{
+        max-width: 45px;
+        width: 100%;
+        margin-right: 30px;
+    }
+     & .targetInputContainer{
+        max-width: 95px;
+        width: 100%;
+        margin-right:20px;
+    }
+    
 }
 
 .closeIcon {
@@ -16,17 +30,10 @@
 
         &:hover {
             cursor: pointer;
-            color:  #DADADA;
+            color: #dadada;
         }
     }
 }
-.profitInput {
-    & label {
-        color: rgba(255, 255, 255, 0.5);
-    }
-    & input {
-        margin-top: 13px;
-        color: #fff;        
-    }
-    
-}
+
+
+
