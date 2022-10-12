@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from "react";
 
-import { PlaceOrderStore } from "./store/PlaceOrderStore";
+import { RootStore } from './store/PlaceOrderStore';
 
-const store = new PlaceOrderStore();
+const store = new RootStore();
 const storeContext = createContext(store);
 
 const useStore = () => {

@@ -14,7 +14,9 @@ type Props = {
 };
 
 const ProfitTarget: React.FC<Props> = observer(({ isOpen, setIsOpen }) => {
-	const { profits, setProfits, deleteProfitItem } = useStore();
+    const store=useStore()
+	const { profits, setProfits, deleteProfitItem, lastProfitNumber } =
+		store.placeOrderStore;
 	const [isBtnVisible, setIsBtnVisible] = useState(true);
 
 	useEffect(() => {
@@ -22,12 +24,12 @@ const ProfitTarget: React.FC<Props> = observer(({ isOpen, setIsOpen }) => {
 			setIsOpen(!isOpen);
 			setIsBtnVisible(false);
 		}
-	}, [profits, isOpen, setIsOpen]);
+	}, [profits, isOpen, setIsOpen, isBtnVisible, setIsBtnVisible]);
 
 
 
 	const addTargetProfit = () => {
-		setProfits();
+		 setProfits();
 	};
 
 	const deleteProfitItemById = (item: ProfitType): void => {
@@ -47,7 +49,7 @@ const ProfitTarget: React.FC<Props> = observer(({ isOpen, setIsOpen }) => {
 				);
 			})}
 
-			{isBtnVisible &&  isOpen && (
+			{isBtnVisible && profits.length !==5 && (
 				<div className={styles.addProfitBtn}>
 					<AddCircleIcon className={styles.addIcon} />
 					<div onClick={addTargetProfit}>

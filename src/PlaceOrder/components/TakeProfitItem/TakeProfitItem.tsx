@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { observer } from "mobx-react";
 
 import CancelIcon from "@material-ui/icons/Cancel";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,8 +10,8 @@ import { QUOTE_CURRENCY } from "PlaceOrder/constants";
 import { PROCENT_MARK } from "../../constants";
 
 import styles from "./TakeProfitItem.module.scss";
-import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
+import { useStore } from "PlaceOrder/context";
+import { config } from "process";
 
 type Props = {
 	id: number;
@@ -19,55 +21,73 @@ type Props = {
 	deleteProfileItem: (id: number) => void;
 };
 
-
-function TakeProfitItem(profitItem: Props) {
+const TakeProfitItem = observer((profitItem: Props) => {
 	const { id, profit, targetPrice, amountToBuy, deleteProfileItem } =
-		profitItem;
+		profitItem; 
+	
+   const store = useStore();
+	const {
+		profits,
+		price,
+		finishedAmount,
+		recalculateAmountToBuy,
+		updateProfit,
+		setTargetPrice,
+		totalTargetPrice,
+	} = store.placeOrderStore; 
+    const [targetPriceInputValue, setTargetPriceInputValue] = useState<
+		number | null
+	>(targetPrice);    
+    const [profitValue, setProfitValue] = useState<number | null>(profit);    
 
+	if (finishedAmount > 100) {
+		recalculateAmountToBuy();
+	}
+    const setNewProfitValue=(value: any)=>{
+        setProfitValue(Number(value));        
+    }
+
+    const setCurrentTargetPriceValue=(value:any)=>{  
+		setTargetPrice(profitItem, value);
+	}
+
+    console.log(totalTargetPrice);
 	const deleteTargetItem = (id: number) => {
 		deleteProfileItem(id);
 	};
-	const changeInputValue = () => {
-		console.log("profit blure");
+
+	const changeInputProfitValue = () => {		       
+		updateProfit(profitItem,profitValue);
+        setTargetPriceInputValue(totalTargetPrice)
 	};
-
-	// const handleChange =
-	// 	(prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 		setValues({ ...values, [prop]: event.target.value });
-	// 	};
-
-    // const deleteProfileItem = (id: number) => {
-	// 	const newProfitsAmount = [...profits].filter((p) => p.id !== id);
-	// 	setProfits([...newProfitsAmount]);
-	// };
 
 	return (
 		<div className={styles.itemContent}>
 			<NumberInput
 				label="Profit"
-				value={profit}
-				onChange={(value) => console.log("profit", value)}
-				onBlur={changeInputValue}
-				InputProps={{
-					endAdornment: PROCENT_MARK,
-					classes: {
-						adornedEnd: styles.adornedEnd,
-					},
-				}}				
+				value={profitValue}
+				onChange={setNewProfitValue}
+				onBlur={changeInputProfitValue}
+				// // InputProps={{
+				// 	endAdornment: PROCENT_MARK,
+				// 	classes: {
+				// 		adornedEnd: styles.adornedEnd,
+				// 	},
+				// }}
 				className={styles.profitInput}
 			/>
 
 			<NumberInput
 				label="Target price"
-				value={targetPrice}
-				onChange={(value) => console.log("price", value)}
-				InputProps={{ endAdornment: QUOTE_CURRENCY }}
+				value={totalTargetPrice}
+				onChange={setCurrentTargetPriceValue}
+				// InputProps={{ endAdornment: QUOTE_CURRENCY }}
 			/>
 			<NumberInput
 				label="Amount to buyt"
 				value={amountToBuy}
 				onChange={(value) => console.log("Amount", value)}
-				InputProps={{ endAdornment: PROCENT_MARK }}
+				// InputProps={{ endAdornment: PROCENT_MARK }}
 			/>
 			<IconButton
 				onClick={() => deleteTargetItem(id)}
@@ -77,6 +97,6 @@ function TakeProfitItem(profitItem: Props) {
 			</IconButton>
 		</div>
 	);
-}
+});
 
 export { TakeProfitItem };

@@ -13,6 +13,7 @@ import { TakeProfit } from "./components/TakeProfit/TakeProfit";
 import styles from "./PlaceOrderForm.module.scss";
 
 export const PlaceOrderForm = observer(() => {
+    const store=useStore();
   const {
     activeOrderSide,
     price,
@@ -23,8 +24,8 @@ export const PlaceOrderForm = observer(() => {
     setTotal,
     setOrderSide,
     profits
-  } = useStore();
-console.log("profits from store", profits);
+  } = store.placeOrderStore;
+
   return (
     <form className={styles.root}>
       <div className={styles.header}>
