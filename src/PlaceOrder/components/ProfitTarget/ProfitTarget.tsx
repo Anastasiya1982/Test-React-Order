@@ -6,7 +6,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import styles from "./ProfitTarget.module.scss";
 import { useStore } from "PlaceOrder/context";
-import { ProfitType } from "../../store/Profit";
+import { ProfitType } from "PlaceOrder/model";
 
 type Props = {
 	isOpen: boolean;
@@ -15,8 +15,7 @@ type Props = {
 
 const ProfitTarget: React.FC<Props> = observer(({ isOpen, setIsOpen }) => {
 	const store = useStore();
-	const { profits, setProfits, deleteProfitItem, lastProfitNumber } =
-		store.placeOrderStore;
+	const { profits, setProfits, deleteProfitItem } = store.placeOrderStore;
 	const [isBtnVisible, setIsBtnVisible] = useState(true);
 
 	useEffect(() => {

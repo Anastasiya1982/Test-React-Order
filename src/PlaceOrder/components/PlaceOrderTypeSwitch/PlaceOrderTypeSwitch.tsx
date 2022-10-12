@@ -7,37 +7,37 @@ import { OrderSide } from "../../model";
 import styles from "./PlaceOrderTypeSwitch.module.scss";
 
 type Props = {
-  activeOrderSide: OrderSide;
-  onChange(orderSide: OrderSide): void;
+	activeOrderSide: OrderSide;
+	onChange(orderSide: OrderSide): void;
 };
 
 const PlaceOrderTypeSwitch = ({ activeOrderSide, onChange }: Props) => {
-  const handleToggle = (orderType: OrderSide) => {
-    onChange(orderType);
-  };
+	const handleToggle = (orderType: OrderSide) => {
+		onChange(orderType);
+	};
 
-  return (
-    <div className={styles.root}>
-      <Button
-        color="green"
-        fullWidth
-        inactive={activeOrderSide !== "buy"}
-        onClick={() => handleToggle("buy")}
-      >
-        <TrendingUp />
-        &nbsp; Long
-      </Button>
-      <Button
-        color="red"
-        fullWidth
-        inactive={activeOrderSide === "buy"}
-        onClick={() => handleToggle("sell")}
-      >
-        <TrendingDown />
-        &nbsp; Short
-      </Button>
-    </div>
-  );
+	return (
+		<div className={styles.root}>
+			<Button
+				color="green"
+				fullWidth
+				inactive={activeOrderSide !== "buy"}
+				onClick={() => handleToggle("buy")}
+			>
+				<TrendingUp />
+				&nbsp; Long
+			</Button>
+			<Button
+				color="red"
+				fullWidth
+				inactive={activeOrderSide === "buy"}
+				onClick={() => handleToggle("sell")}
+			>
+				<TrendingDown />
+				&nbsp; Short
+			</Button>
+		</div>
+	);
 };
 
 export { PlaceOrderTypeSwitch };

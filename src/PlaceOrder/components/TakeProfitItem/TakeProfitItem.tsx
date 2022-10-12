@@ -37,6 +37,7 @@ const TakeProfitItem = observer((profitItem: Props) => {
 		updateProfit,
 		setTargetPrice,
 		totalTargetPrice,
+		changeAllTotalTargetPrice,
 	} = store.placeOrderStore;
 	const [targetPriceInputValue, setTargetPriceInputValue] = useState<
 		number | null
@@ -54,7 +55,6 @@ const TakeProfitItem = observer((profitItem: Props) => {
 		setTargetPrice(profitItem, value);
 	};
 
-	console.log(totalTargetPrice);
 	const deleteTargetItem = (id: number) => {
 		deleteProfileItem(id);
 	};
@@ -62,6 +62,7 @@ const TakeProfitItem = observer((profitItem: Props) => {
 	const changeInputProfitValue = () => {
 		updateProfit(profitItem, profitValue);
 		setTargetPriceInputValue(totalTargetPrice);
+		changeAllTotalTargetPrice();
 	};
 
 	return (

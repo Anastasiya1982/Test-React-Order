@@ -1,6 +1,5 @@
 import { observable, computed, action } from "mobx";
-import { OrderSide } from "../model";
-import { ProfitType } from "./Profit";
+import { OrderSide, ProfitType } from "../model";
 
 import { PlaceOrderForm } from "../PlaceOrderForm";
 
@@ -41,12 +40,6 @@ export class PlaceOrderStore {
 		let newProfit = lastProfit ? lastProfit.profit + 2 : 2;
 		let newTargetPrice = this.price + (this.price / 100) * newProfit;
 		let amountToBuy = this.profits.length ? 20 : 100;
-		// let newProfitItem = {
-		// 	id: Math.floor(Math.random() * 200),
-		// 	profit: newProfit,
-		// 	targetPrice: newTargetPrice,
-		// 	amountToBuy: amountToBuy,
-		// };
 		this.profits.push(new Profit(newProfit, newTargetPrice, amountToBuy));
 	}
 
@@ -68,6 +61,12 @@ export class PlaceOrderStore {
 		chanchedTargetPrice.targetPrice = newTargetPrice; // this.
 	}
 
+	@action.bound public changeAllTotalTargetPrice() {
+		this.profits.forEach((element: ProfitType) => {
+			element.targetPrice =
+				this.price + (this.price / 100) * element.profit;
+		});
+	}
 	@computed get totalTargetPrice(): number {
 		return this.price + (this.price / 100) * this.profits[0].profit;
 	}
@@ -81,23 +80,20 @@ export class PlaceOrderStore {
 	};
 
 	@computed get lastProfitNumber() {
-        if(this.profits.length){
-           return this.profits[this.profits.length - 1].profit;
-        }	
+		if (this.profits.length) {
+			return this.profits[this.profits.length - 1].profit;
+		}
 	}
-
 
 	@computed get progectedProfit() {
 		if (this.profits.length) {
-			let currentProfit = this.profits[0].targetPrice;            
+			let currentProfit = this.profits[0].targetPrice;
+			console.log(currentProfit - this.price);
 			return this.activeOrderSide === "buy"
 				? this.amount * (currentProfit - this.price)
 				: this.amount * (this.price - currentProfit);
 		}
 		return 0;
-
-		// let currentAmount=this.profits[0].amountToBuy;
-		// return currentAmount*(currentProfit - this.price) / currentAmount*(this.price-currentProfit);
 	}
 
 	@computed get finishedAmount() {
