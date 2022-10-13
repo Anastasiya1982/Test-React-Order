@@ -42,9 +42,8 @@ export class PlaceOrderStore {
 		// let lastProfit = this.profits[this.profits.length - 1];
 		// let newProfit = lastProfit ? lastProfit.profit + 2 : 2;
 		// let newTargetPrice = this.price + (this.price / 100) * newProfit;
-       	let newTargetPrice = this.price 
 		let amountToBuy = this.profits.length ? 20 : 100;
-		this.profits.push(new Profit( newTargetPrice, amountToBuy));
+		this.profits.push(new Profit( this.price, amountToBuy));
 	}
 
 	@action.bound

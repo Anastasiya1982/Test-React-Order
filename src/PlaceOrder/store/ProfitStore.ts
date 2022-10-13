@@ -8,15 +8,18 @@ export default class Profit {
 	readonly id: number | undefined;
 	root: RootStore | undefined;
 	placeOrderStore: PlaceOrderStore | undefined;
-	@observable profit: number;
-	@observable public targetPrice: number = 0;
+	@observable public profit: number;
+	@observable public targetPrice: number;
 	@observable public amountToBuy: number = 100;
+	@observable public price: number;
+	static price: number;
 
-	constructor(newTargetPrice: number, amountToBuy: number) {
+	constructor(price: number, amountToBuy: number) {
 		this.id = Profit.generateId();
 		this.profit = Profit.generateNextProfitNumber();
-		this.targetPrice = newTargetPrice;
+		this.targetPrice = Profit.generateTargetPrice();
 		this.amountToBuy = amountToBuy;
+		this.price = price;
 	}
 	static nextId = 1;
 	static generateId() {
@@ -26,5 +29,10 @@ export default class Profit {
 	static nextProfit = 0;
 	static generateNextProfitNumber() {
 		return (this.nextProfit = this.nextProfit + 2);
+	}
+	static targetPrice = 0;
+	static generateTargetPrice() {
+		return (this.targetPrice =
+			this.price + (this.price / 100) * this.nextProfit);
 	}
 }
