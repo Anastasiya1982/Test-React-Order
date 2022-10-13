@@ -19,6 +19,8 @@ const TakeProfit = observer(() => {
 	const { profits, setProfits, clearProfits, progectedProfit } =
 		store.placeOrderStore;
 
+        console.log(profits)
+
 	const changeProfitTarget = (checked: boolean) => {
 		if (checked) {
 			setIsAddProfitTargetOpen(true);
