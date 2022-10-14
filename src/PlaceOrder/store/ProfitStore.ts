@@ -1,5 +1,6 @@
 import { observable, computed, action } from "mobx";
-import { OrderSide, ProfitType } from "../model";
+import { bool } from "yup";
+
 import { PlaceOrderStore, RootStore } from "./PlaceOrderStore";
 
 export class ProfitStore {}
@@ -9,30 +10,32 @@ export default class Profit {
 	root: RootStore | undefined;
 	placeOrderStore: PlaceOrderStore | undefined;
 	@observable public profit: number;
-	@observable public targetPrice: number;
-	@observable public amountToBuy: number = 100;
-	@observable public price: number;
-	static price: number;
+	@observable public amountToBuy: number;
+    targetPrice:number;
 
-	constructor(price: number, amountToBuy: number) {
+	
+
+	constructor(targetPrice: number, amountToBuy: number) {
 		this.id = Profit.generateId();
 		this.profit = Profit.generateNextProfitNumber();
-		this.targetPrice = Profit.generateTargetPrice();
+		this.targetPrice =targetPrice;
 		this.amountToBuy = amountToBuy;
-		this.price = price;
+          console.log(this.targetPrice);
+		
 	}
 	static nextId = 1;
 	static generateId() {
 		return this.nextId++;
 	}
-
+ 
+  
 	static nextProfit = 0;
 	static generateNextProfitNumber() {
 		return (this.nextProfit = this.nextProfit + 2);
 	}
-	static targetPrice = 0;
-	static generateTargetPrice() {
-		return (this.targetPrice =
-			this.price + (this.price / 100) * this.nextProfit);
+
+	static setDefaultProfitNumber(value:number) {
+		return (this.nextProfit =value);
 	}
+
 }

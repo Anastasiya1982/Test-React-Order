@@ -38,10 +38,13 @@ const ProfitTarget: React.FC<Props> = observer(({ isOpen, setIsOpen }) => {
 				return (
 					<TakeProfitItem
 						key={profitItem.id}
-						{...profitItem}
 						deleteProfileItem={() =>
 							deleteProfitItemById(profitItem)
 						}
+						id={profitItem.id}
+						profit={profitItem.profit}
+						targetPrice={profitItem.targetPrice}
+						amountToBuy={profitItem.amountToBuy}
 					/>
 				);
 			})}
