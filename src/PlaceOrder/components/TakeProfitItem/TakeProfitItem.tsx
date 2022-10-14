@@ -48,9 +48,8 @@ const TakeProfitItem = observer(
 	({ id, profit, targetPrice, amountToBuy, deleteProfileItem }: Props) => {
 		const store = useStore();
 
-		const {
-			profits,
-			price,
+		const {			
+            activeOrderSide,
 			finishedAmount,
 			recalculateAmountToBuy,
 			setProfitValue,
@@ -63,7 +62,7 @@ const TakeProfitItem = observer(
 		const [targetPriceInputValue, setTargetPriceInputValue] = useState<
 			number | null
 		>(targetPrice);
-		// const [profitValue, setProfitValue] = useState<number | null>(profit);
+		
 		const [profitError, setProfitError] = useState<profitErrorType>({
 			profitErrorMax: "Maximum profit sum is 500%",
 			isProfitErrorMax: false,
@@ -122,6 +121,7 @@ const TakeProfitItem = observer(
 								value={profit}
 								onChange={setNewProfitValue}
 								onBlur={changeInputProfitValueonBlure}
+								activeOrderSide={activeOrderSide}
 								InputProps={{
 									endAdornment: <span>{PROCENT_MARK}</span>,
 								}}
@@ -147,6 +147,7 @@ const TakeProfitItem = observer(
 						InputProps={{
 							endAdornment: <span>{QUOTE_CURRENCY}</span>,
 						}}
+						activeOrderSide={activeOrderSide}
 					/>
 				</div>
 				<div>
@@ -159,6 +160,7 @@ const TakeProfitItem = observer(
 						InputProps={{
 							endAdornment: <span>{PROCENT_MARK}</span>,
 						}}
+						activeOrderSide={activeOrderSide}
 					/>
 				</div>
 				<div>

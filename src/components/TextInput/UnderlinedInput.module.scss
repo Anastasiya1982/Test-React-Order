@@ -52,4 +52,40 @@
       }
     }
   }
+
+  .inputWrapperSell {
+    font-size: 14px;
+    border-radius: 0;
+    border-bottom: 1px solid transparent;
+    background-color: transparent;
+    color: rgba(255,255,255,.5);
+    padding: 6px 0 7px;
+  
+    &:hover {     
+      border-color:  #F96C5A;;
+      background-color: transparent;
+    }
+
+    &.focused:not(input) {
+      border-color:  #F96C5A;;
+    }
+
+    &.adornedEnd {
+      padding-right: 9px;
+      padding-top: 15px;
+    }
+
+    &.adornedStart {
+      padding-left: 9px;
+    }
+
+    &.error {
+      color: #f44336;
+      border-color: #ff4114 !important;
+      
+      .input {
+        color: #f44336;
+      }
+    }
+  }
 }

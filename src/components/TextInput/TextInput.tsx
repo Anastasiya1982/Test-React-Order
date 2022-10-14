@@ -15,21 +15,22 @@ import filledInputStyles from "./FilledInput.module.scss";
 import underlinedInputStyles from "./UnderlinedInput.module.scss";
 
 type Props = Omit<
-  TextFieldProps,
-  "variant" | "onChange" | "className" | "classes" | "error"
+	TextFieldProps,
+	"variant" | "onChange" | "className" | "classes" | "error"
 > & {
-  variant?: "underlined" | "filled";
-  error?: ReactNode;
-  InputLabelProps?: Omit<
-    TextFieldProps["InputLabelProps"],
-    "className" | "classes"
-  >;
-  InputProps?: Omit<
-    TextFieldProps["InputProps"],
-    "disableUnderline" | "classes" | "className"
-  >;
-  errorPlacement?: TooltipProps["placement"];
-  onChange?(value: string): void; 
+	variant?: "underlined" | "filled";
+	error?: ReactNode;
+	InputLabelProps?: Omit<
+		TextFieldProps["InputLabelProps"],
+		"className" | "classes"
+	>;
+	activeOrderSide?:string;
+	InputProps?: Omit<
+		TextFieldProps["InputProps"],
+		"disableUnderline" | "classes" | "className"
+	>;
+	errorPlacement?: TooltipProps["placement"];
+	onChange?(value: string): void;
 };
 
 const TextInput = ({
@@ -41,17 +42,27 @@ const TextInput = ({
   InputLabelProps,
   InputProps,
   errorPlacement = "top", 
+  activeOrderSide,
   ...rest
 }: Props) => {
   const styles =
     variant === "filled" ? filledInputStyles : underlinedInputStyles;
     
   const inputClasses: MUIInputProps["classes"] = {
-    root: cn(styles.inputWrapper, { [styles.error]: Boolean(error) }),
-    focused: cn(styles.inputWrapper, styles.focused),
-    adornedEnd: cn(styles.inputWrapper, styles.adornedEnd),
-    adornedStart: cn(styles.inputWrapper, styles.adornedStart),
-    input: styles.input
+		root: cn(
+			activeOrderSide === "sell"
+				? styles.inputWrapperSell
+				: styles.inputWrapper,
+			{
+				[styles.error]: Boolean(error),
+			},
+		),
+		focused: cn(activeOrderSide === "sell"
+				? styles.inputWrapperSell
+				: styles.inputWrapper, styles.focused),
+		adornedEnd: cn(styles.inputWrapper, styles.adornedEnd),
+		adornedStart: cn(styles.inputWrapper, styles.adornedStart),
+		input: styles.input,
   };
 
   const labelClasses: MUIInputLabelProps["classes"] = {
