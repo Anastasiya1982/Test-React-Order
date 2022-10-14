@@ -47,23 +47,23 @@ type amountToBuyErrorRangeType = {
 const TakeProfitItem = observer(
 	({ id, profit, targetPrice, amountToBuy, deleteProfileItem }: Props) => {
 		const store = useStore();
-        console.log('====================================');
-        console.log(id, profit, targetPrice);
-        console.log('====================================');
+
 		const {
 			profits,
 			price,
 			finishedAmount,
 			recalculateAmountToBuy,
+			setProfitValue,
 			updateProfit,
 			setTargetPrice,
 			totalTargetPrice,
 			changeAllTotalTargetPrice,
+			 setAmountToSellOfProfitTargetState,
 		} = store.placeOrderStore;
 		const [targetPriceInputValue, setTargetPriceInputValue] = useState<
 			number | null
 		>(targetPrice);
-		const [profitValue, setProfitValue] = useState<number | null>(profit);
+		// const [profitValue, setProfitValue] = useState<number | null>(profit);
 		const [profitError, setProfitError] = useState<profitErrorType>({
 			profitErrorMax: "Maximum profit sum is 500%",
 			isProfitErrorMax: false,
@@ -91,22 +91,24 @@ const TakeProfitItem = observer(
 		if (finishedAmount > 100) {
 			recalculateAmountToBuy();
 		}
-		const setNewProfitValue = (value: any) => {
-			setProfitValue(Number(value));
+		const setNewProfitValue = (value: number) => {
+			setProfitValue(id, value);
 		};
 
 		const setCurrentTargetPriceValue = (value: any) => {
 			setTargetPrice(id, value);
 		};
 
+		const setCurrentAmountValue = (value: number) => {
+			setAmountToSellOfProfitTargetState(id, value);
+		};
+
 		const deleteTargetItem = (id: number) => {
 			deleteProfileItem(id);
 		};
 
-		const changeInputProfitValue = () => {
-			updateProfit(id, profitValue);
-			setTargetPriceInputValue(totalTargetPrice);
-			changeAllTotalTargetPrice();
+		const changeInputProfitValueonBlure = () => {		
+			 changeAllTotalTargetPrice();
 		};
 
 		return (
@@ -117,9 +119,9 @@ const TakeProfitItem = observer(
 							<NumberInput
 								label="Profit"
 								variant="underlined"
-								value={profitValue}
+								value={profit}
 								onChange={setNewProfitValue}
-								onBlur={changeInputProfitValue}
+								onBlur={changeInputProfitValueonBlure}
 								InputProps={{
 									endAdornment: <span>{PROCENT_MARK}</span>,
 								}}
@@ -152,7 +154,8 @@ const TakeProfitItem = observer(
 						label="Amount to buy"
 						variant="underlined"
 						value={amountToBuy}
-						onChange={(value) => console.log("Amount", value)}
+						onBlur={changeInputProfitValueonBlure}
+						onChange={setCurrentAmountValue}
 						InputProps={{
 							endAdornment: <span>{PROCENT_MARK}</span>,
 						}}

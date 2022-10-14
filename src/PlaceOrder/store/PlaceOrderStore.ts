@@ -74,6 +74,7 @@ export class PlaceOrderStore {
 			(chP: ProfitType) => chP.id === id,
 		);
 		chanchedProfit.profit = profitValue;
+		
 	}
 
 	@action.bound public setTargetPrice(id: number, newTargetPrice: number) {
@@ -84,6 +85,8 @@ export class PlaceOrderStore {
 	}
 
 	@action.bound public changeAllTotalTargetPrice() {
+		console.log("FFHJHGFJHGFJHGFJHG");
+
 		this.profits.forEach((element: ProfitType) => {
 			element.targetPrice =
 				this.price + (this.price / 100) * element.profit;
@@ -100,6 +103,26 @@ export class PlaceOrderStore {
 	@action.bound public clearProfits = () => {
 		this.profitsArr = [];
 	};
+
+	@action.bound public setProfitValue(id: number, value: number) {
+		const chanchedProfit = this.profits.find(
+			(pr: ProfitType) => pr.id === id,
+		);
+		console.log(chanchedProfit);
+		chanchedProfit.profit = value;	
+	}
+
+	@action.bound
+	public setAmountToSellOfProfitTargetState(
+		id: number,
+		value: string | number,
+	) {
+		this.profits[id] = {
+			profit: this.profits[id].profit,
+			targetPrice: this.profits[id].targetPrice,
+			amountToSell: value,
+		};
+	}
 
 	@computed get progectedProfit() {
 		if (this.profits.length) {

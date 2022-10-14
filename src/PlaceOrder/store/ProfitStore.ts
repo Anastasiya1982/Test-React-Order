@@ -11,7 +11,7 @@ export default class Profit {
 	placeOrderStore: PlaceOrderStore | undefined;
 	@observable public profit: number;
 	@observable public amountToBuy: number;
-	targetPrice: number;
+	@observable public targetPrice: number;
 
 	constructor(profit: number, targetPrice: number, amountToBuy: number) {
 		this.id = Profit.generateId();
