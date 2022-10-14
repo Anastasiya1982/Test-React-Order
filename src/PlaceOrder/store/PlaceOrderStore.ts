@@ -45,16 +45,27 @@ export class PlaceOrderStore {
 		this.amount = this.price > 0 ? total / this.price : 0;
 	}
 
-    @computed get newCurrentTargetPrice(){
+	@computed get lastProfitNumber() {
 		let lastProfit = this.profits[this.profits.length - 1];
 		let newProfit = lastProfit ? lastProfit.profit + 2 : 2;
-		let newTargetPrice = this.price + (this.price / 100) * newProfit;
-        return newTargetPrice;
+		return newProfit;
 	}
 
-	@action.bound public setProfits() {		
+	@computed get newCurrentTargetPrice() {
+		let newTargetPrice =
+			this.price + (this.price / 100) * this.lastProfitNumber;
+		return newTargetPrice;
+	}
+
+	@action.bound public setProfits() {
 		let amountToBuy = this.profits.length ? 20 : 100;
-		this.profits.push(new Profit( this.newCurrentTargetPrice, amountToBuy));
+		this.profits.push(
+			new Profit(
+				this.lastProfitNumber,
+				this.newCurrentTargetPrice,
+				amountToBuy,
+			),
+		);
 	}
 
 	@action.bound
@@ -65,10 +76,7 @@ export class PlaceOrderStore {
 		chanchedProfit.profit = profitValue;
 	}
 
-	@action.bound public setTargetPrice(
-		id: number,
-		newTargetPrice: number,
-	) {
+	@action.bound public setTargetPrice(id: number, newTargetPrice: number) {
 		const chanchedTargetPrice = this.profits.find(
 			(chP: ProfitType) => chP.id === id,
 		);
@@ -93,15 +101,9 @@ export class PlaceOrderStore {
 		this.profitsArr = [];
 	};
 
-	@computed get lastProfitNumber() {
-		if (this.profits.length) {
-			return this.profits[this.profits.length - 1].profit;
-		}
-	}
-
 	@computed get progectedProfit() {
 		if (this.profits.length) {
-			let currentProfit = this.profits[0].targetPrice;			
+			let currentProfit = this.profits[0].targetPrice;
 			return this.activeOrderSide === "buy"
 				? this.amount * (currentProfit - this.price)
 				: this.amount * (this.price - currentProfit);

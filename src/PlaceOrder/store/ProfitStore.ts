@@ -11,31 +11,18 @@ export default class Profit {
 	placeOrderStore: PlaceOrderStore | undefined;
 	@observable public profit: number;
 	@observable public amountToBuy: number;
-    targetPrice:number;
+	targetPrice: number;
 
-	
-
-	constructor(targetPrice: number, amountToBuy: number) {
+	constructor(profit: number, targetPrice: number, amountToBuy: number) {
 		this.id = Profit.generateId();
-		this.profit = Profit.generateNextProfitNumber();
-		this.targetPrice =targetPrice;
+		this.profit = profit;
+		this.targetPrice = targetPrice;
 		this.amountToBuy = amountToBuy;
-          console.log(this.targetPrice);
-		
+		console.log(this.targetPrice);
 	}
 	static nextId = 1;
+
 	static generateId() {
 		return this.nextId++;
 	}
- 
-  
-	static nextProfit = 0;
-	static generateNextProfitNumber() {
-		return (this.nextProfit = this.nextProfit + 2);
-	}
-
-	static setDefaultProfitNumber(value:number) {
-		return (this.nextProfit =value);
-	}
-
 }
