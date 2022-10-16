@@ -23,6 +23,7 @@ export const PlaceOrderForm = observer(() => {
 		setAmount,
 		setTotal,
 		setOrderSide,
+        changeAllTotalTargetPrice
 	} = store.placeOrderStore;
 
 	return (
@@ -44,6 +45,7 @@ export const PlaceOrderForm = observer(() => {
 					<NumberInput
 						label="Price, USDT"
 						value={price}
+						onBlur={changeAllTotalTargetPrice}
 						onChange={(value) => setPrice(Number(value))}
 					/>
 				</div>
@@ -64,7 +66,7 @@ export const PlaceOrderForm = observer(() => {
 				<div className={styles.takeProfit}>
 					<TakeProfit />
 				</div>
-				<div className="submit">
+				<div className={styles.submit}>
 					<Button
 						color={activeOrderSide === "buy" ? "green" : "red"}
 						type="submit"

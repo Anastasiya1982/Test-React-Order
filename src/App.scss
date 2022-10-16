@@ -1,3 +1,5 @@
+@import "./fonts/fonts.scss";
+
 html {
   height: 100%;
   background-color: #161617;
@@ -6,8 +8,7 @@ html {
 body {
   height: 100%;
   margin: 0;
-  font-family: SFProDisplay, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+  font-family: SFProDisplayRegular;
 }
 
 #root {
@@ -21,6 +22,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
+  font-family: 'SFProDisplayRegular';
 
   .form {
     width: 300px;

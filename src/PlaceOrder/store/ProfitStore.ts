@@ -1,5 +1,4 @@
-import { observable, computed, action } from "mobx";
-import { bool } from "yup";
+import { observable } from "mobx";
 
 import { PlaceOrderStore, RootStore } from "./PlaceOrderStore";
 
@@ -18,7 +17,7 @@ export default class Profit {
 		this.profit = profit;
 		this.targetPrice = targetPrice;
 		this.amountToBuy = amountToBuy;
-		console.log(this.targetPrice);
+		
 	}
 	static nextId = 1;
 

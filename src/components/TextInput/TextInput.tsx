@@ -71,13 +71,7 @@ const TextInput = ({
 
   const [isFocused, setIsFocused] = useState(false);
 
-  return (
-    <Tooltip
-      open={isFocused && !!error}
-      message={error ?? ""}
-      isError
-      placement={errorPlacement}
-    >
+  return (   
       <TextField
         {...rest}
         className={styles.root}
@@ -85,7 +79,8 @@ const TextInput = ({
         onChange={handleChange}
         InputLabelProps={{
           ...InputLabelProps,
-          classes: labelClasses
+          classes: labelClasses,
+         
         }}
         InputProps={{
           ...InputProps,
@@ -95,7 +90,6 @@ const TextInput = ({
           classes: inputClasses
         }}
       />
-    </Tooltip>
   );
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

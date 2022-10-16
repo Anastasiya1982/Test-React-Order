@@ -17,9 +17,7 @@ const TakeProfit = observer(() => {
 
 	const store = useStore();
 	const { profits, setProfits, clearProfits, progectedProfit } =
-		store.placeOrderStore;
-
-        console.log(profits)
+		store.placeOrderStore;    
 
 	const changeProfitTarget = (checked: boolean) => {
 		if (checked) {

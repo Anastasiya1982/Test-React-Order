@@ -1,4 +1,4 @@
-import { observable, computed, action } from "mobx";
+import { observable, computed, action, autorun, reaction } from "mobx";
 import { OrderSide, ProfitType } from "../model";
 import Profit, { ProfitStore } from "./ProfitStore";
 
@@ -8,13 +8,14 @@ export class PlaceOrderStore {
 	@observable amount: number = 0;
 	@observable profitsArr: any = [];
 	@observable isTakeProfit: boolean = false;
-	@observable profitTargetNumber: number[] = [0];
-	@observable projectedProfit: number | string = 0;
+	@observable projectedProfit: number = 0;
 	root: RootStore | undefined;
 
 	@computed get total(): number {
 		return this.price * this.amount;
 	}
+     
+     
 
 	@computed get profits() {
 		return this.profitsArr;
@@ -74,7 +75,6 @@ export class PlaceOrderStore {
 			(chP: ProfitType) => chP.id === id,
 		);
 		chanchedProfit.profit = profitValue;
-		
 	}
 
 	@action.bound public setTargetPrice(id: number, newTargetPrice: number) {
@@ -85,8 +85,6 @@ export class PlaceOrderStore {
 	}
 
 	@action.bound public changeAllTotalTargetPrice() {
-		console.log("FFHJHGFJHGFJHGFJHG");
-
 		this.profits.forEach((element: ProfitType) => {
 			element.targetPrice =
 				this.price + (this.price / 100) * element.profit;
@@ -109,27 +107,23 @@ export class PlaceOrderStore {
 			(pr: ProfitType) => pr.id === id,
 		);
 		console.log(chanchedProfit);
-		chanchedProfit.profit = value;	
+		chanchedProfit.profit = value;
 	}
 
 	@action.bound
-	public setAmountToSellOfProfitTargetState(
-		id: number,
-		value: string | number,
-	) {
-		this.profits[id] = {
-			profit: this.profits[id].profit,
-			targetPrice: this.profits[id].targetPrice,
-			amountToSell: value,
-		};
+	public setAmountToBuy(id: number, value: number) {
+		const chanchedAmountToBuy = this.profits.find(
+			(pr: ProfitType) => pr.id === id,
+		);
+		chanchedAmountToBuy.amountToBuy = value;
 	}
 
 	@computed get progectedProfit() {
 		if (this.profits.length) {
 			let currentProfit = this.profits[0].targetPrice;
 			return this.activeOrderSide === "buy"
-				? this.amount * (currentProfit - this.price)
-				: this.amount * (this.price - currentProfit);
+				? (this.amount * (currentProfit - this.price)).toFixed(1)
+				: (this.amount * (this.price - currentProfit)).toFixed(1);
 		}
 		return 0;
 	}
@@ -147,13 +141,21 @@ export class PlaceOrderStore {
 		this.profits.sort(function (a: ProfitType, b: ProfitType) {
 			return b.amountToBuy - a.amountToBuy;
 		});
-		let min = this.profits[0].amountToBuy;
-		let max = this.profits[this.profits.length - 1].amountToBuy;
+		let max = this.profits[0].amountToBuy;
+		let min = this.profits[this.profits.length - 1].amountToBuy;
+		let numberToDeduct = this.finishedAmount - 100;
+		this.profits[0].amountToBuy =
+			this.profits[0].amountToBuy - numberToDeduct;
 	};
 
 	@computed get lastProfit() {
 		return this.profits[this.profits.length - 1];
 	}
+
+   
+
+     
+
 }
 
 export class RootStore {
