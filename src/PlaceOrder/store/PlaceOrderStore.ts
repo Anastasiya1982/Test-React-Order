@@ -9,13 +9,22 @@ export class PlaceOrderStore {
 	@observable profitsArr: any = [];
 	@observable isTakeProfit: boolean = false;
 	@observable projectedProfit: number = 0;
+	@observable isProfitNumberLimit: any = {
+		isError: false,
+		message: "Maximum profit sum is 500%",
+	};
+	@observable isAmountLimit: any = {
+		isError: false,
+	};
 	root: RootStore | undefined;
 
 	@computed get total(): number {
 		return this.price * this.amount;
 	}
-     
-     
+
+	@computed get decreseNumber() {
+		return this.finishedAmount - 100;
+	}
 
 	@computed get profits() {
 		return this.profitsArr;
@@ -67,6 +76,9 @@ export class PlaceOrderStore {
 				amountToBuy,
 			),
 		);
+		if (this.finishedAmount) {
+			this.recalculateAmountToBuy();
+		}
 	}
 
 	@action.bound
@@ -106,7 +118,7 @@ export class PlaceOrderStore {
 		const chanchedProfit = this.profits.find(
 			(pr: ProfitType) => pr.id === id,
 		);
-		console.log(chanchedProfit);
+
 		chanchedProfit.profit = value;
 	}
 
@@ -137,7 +149,15 @@ export class PlaceOrderStore {
 		return allAmount;
 	}
 
-	@action recalculateAmountToBuy = () => {
+	@computed get finishedProfitNumber() {
+		const allProfits = this.profits.reduce(
+			(accum: number, item: { profit: number }) => accum + item.profit,
+			0,
+		);
+		return allProfits;
+	}
+
+	@action.bound public recalculateAmountToBuy = () => {
 		this.profits.sort(function (a: ProfitType, b: ProfitType) {
 			return b.amountToBuy - a.amountToBuy;
 		});
@@ -152,10 +172,13 @@ export class PlaceOrderStore {
 		return this.profits[this.profits.length - 1];
 	}
 
-   
+	@action.bound public setProfitsLimitError(value: boolean) {
+		this.isProfitNumberLimit.isError = value;
+	}
 
-     
-
+	@action.bound public setAmountLimitError(value: boolean) {
+		this.isAmountLimit.isError = value;
+	}
 }
 
 export class RootStore {

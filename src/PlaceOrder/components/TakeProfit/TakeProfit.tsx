@@ -42,8 +42,7 @@ const TakeProfit = observer(() => {
 						placement={"top"}
 					>
 						<IconButton
-							className={styles.quastionIcon}
-							size="small"
+							className={styles.quastionIcon}							
 						>
 							?
 						</IconButton>

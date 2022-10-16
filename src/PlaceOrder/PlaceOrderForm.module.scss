@@ -30,7 +30,19 @@
         display: grid;
         row-gap: 8px;
     }
-    .submit{
+    
+    .submit {
         margin-top: 10px;
+    }
+
+    .errorBlock {
+        width: 80%;
+        padding: 10px;
+        color: #fff;
+        background-color: #ec512e;
+    }
+
+    .disabled {
+        display: none;
     }
 }

@@ -70,13 +70,12 @@ const TakeProfitItem = observer(
 			isProfitErrorMin: false,
 		});
 		const [openTooltip, setOpenTooltip] = useState<boolean>(false);
-	
-            const [targetPriceError, setTargetPriceError] =
-				useState<targetPriceType>({
-					targetPriceMin: "Price must be greater than 0",
-					isTargetPriceMin: false,
-				});
 
+		const [targetPriceError, setTargetPriceError] =
+			useState<targetPriceType>({
+				targetPriceMin: "Price must be greater than 0",
+				isTargetPriceMin: false,
+			});
 
 		const [amountToBuyErrorRange, setAmountToBuyErrorRange] =
 			useState<amountToBuyErrorRangeType>({
@@ -89,10 +88,6 @@ const TakeProfitItem = observer(
 				amountToBuy: `number out of 100% selected. Please decrease `,
 				isAmountToBuy: false,
 			});
-
-		if (finishedAmount > 100) {		
-			recalculateAmountToBuy();
-		}
 
 		const setNewProfitValue = (value: number) => {
 			if (+value <= 0) {
@@ -107,10 +102,10 @@ const TakeProfitItem = observer(
 				}));
 			}
 			setProfitValue(id, value);
-		};    
+		};
 
 		const setCurrentTargetPriceValue = (value: any) => {
-            if (+value <= 0) {
+			if (+value <= 0) {
 				setTargetPriceError((prevState) => ({
 					...prevState,
 					isTargetPriceMin: true,
@@ -124,41 +119,19 @@ const TakeProfitItem = observer(
 			setTargetPrice(id, value);
 		};
 
-		const setCurrentAmountValueonBlur = () => {
-			// if (finishedAmount > 100) {
-			// 	setAmountToBuyErrorRange(() => ({
-			// 		first: amountToBuy,
-			// 		second: amountToBuy - 100,
-			// 	}));
-			// 	setAmountToBuyError((prevState: any) => ({
-			// 		...prevState,
-			// 		isAmountToBuy: true,
-			// 	}));
-			// } else {
-			// 	setAmountToBuyError((prevState: any) => ({
-			// 		...prevState,
-			// 		isAmountToBuy: false,
-			// 	}));
-			// }
-		};
-
 		const handleChangecurrentAmountTobuyInput = (value: number) => {
-			// if (value > 100) {				
-			// 	setAmountToBuyErrorRange(() => ({
-			// 		first: value,
-			// 		second: value - 100,
-			// 	}));
-			// 	setAmountToBuyError((prevState: any) => ({
-			// 		...prevState,
-			// 		isAmountToBuy: true,
-			// 	}));
-			// }
-			
-            // setAmountToBuyError((prevState: any) => ({
-			// 	...prevState,
-			// 	isAmountToBuy: false,
-			// }));
-            setAmountToBuy(id, value);
+			if (+value > 100) {
+				setAmountToBuyError((prevState) => ({
+					...prevState,
+					isAmountToBuy: true,
+				}));
+			} else {
+				setAmountToBuyError((prevState) => ({
+					...prevState,
+					isAmountToBuy: false,
+				}));
+			}
+			setAmountToBuy(id, value);
 		};
 
 		const deleteTargetItem = (id: number) => {
@@ -220,7 +193,7 @@ const TakeProfitItem = observer(
 								label="Amount to buy"
 								variant="underlined"
 								value={amountToBuy}
-								onBlur={setCurrentAmountValueonBlur}
+								error={amountToBuyError.isAmountToBuy}
 								onChange={handleChangecurrentAmountTobuyInput}
 								InputProps={{
 									endAdornment: <span>{PROCENT_MARK}</span>,
